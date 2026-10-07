@@ -32,6 +32,28 @@ public class UserDAO {
         return Optional.empty();
     }
 
+    public boolean usernameExists(String username) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getInt(1) > 0;
+            }
+        }
+    }
+
+    public void register(String username, String hashedPassword) throws SQLException {
+        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, hashedPassword);
+            ps.executeUpdate();
+        }
+    }
+
     public void updateInitialBalance(int userId, BigDecimal amount) throws SQLException {
         String sql = "UPDATE users SET initial_balance = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

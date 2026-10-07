@@ -10,6 +10,7 @@ public class LoginView extends JFrame {
     private final JTextField usernameField;
     private final JPasswordField passwordField;
     private final JButton loginButton;
+    private final JButton registerButton;
     private final JLabel errorLabel;
 
     public LoginView() {
@@ -47,6 +48,10 @@ public class LoginView extends JFrame {
         loginButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 44));
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        registerButton = UIComponents.secondaryButton("Créer un compte");
+        registerButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         errorLabel = new JLabel(" ");
         errorLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         errorLabel.setForeground(AppColors.DANGER);
@@ -65,6 +70,8 @@ public class LoginView extends JFrame {
         card.add(passwordField);
         card.add(Box.createVerticalStrut(24));
         card.add(loginButton);
+        card.add(Box.createVerticalStrut(10));
+        card.add(registerButton);
         card.add(Box.createVerticalStrut(12));
         card.add(errorLabel);
 
@@ -91,4 +98,5 @@ public class LoginView extends JFrame {
     public String getPassword() { return new String(passwordField.getPassword()); }
     public void showError(String msg) { errorLabel.setText(msg); }
     public void addLoginListener(ActionListener l) { loginButton.addActionListener(l); }
+    public void addRegisterListener(ActionListener l) { registerButton.addActionListener(l); }
 }
