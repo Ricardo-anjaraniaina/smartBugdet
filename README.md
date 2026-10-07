@@ -14,7 +14,7 @@ statistiques et graphiques.
 
 ## Fonctionnalités
 
-- **Authentification** sécurisée (mot de passe hashé SHA-256)
+- **Authentification** sécurisée (mot de passe hashé SHA-256) avec création de compte
 - **Dashboard** : solde, revenus, dépenses, épargne, alertes automatiques
 - **Transactions** : ajout, modification, suppression, consultation
 - **Recherche** multicritère (description, catégorie, type, montant)
@@ -149,6 +149,8 @@ Mot de passe      : admin123
 Des données de démonstration sont incluses (transactions, budgets, objectifs d'épargne)
 pour permettre de tester toutes les fonctionnalités immédiatement.
 
+Vous pouvez également créer un nouveau compte via le bouton **"Créer un compte"** sur l'écran de connexion.
+
 ---
 
 ## Structure du projet
@@ -222,6 +224,20 @@ Adaptez `db.port` dans `config/database.properties` si nécessaire.
 **Solution :**
 1. Importez `database/smartbudget.sql`
 2. Ou laissez l'application la créer automatiquement (si les droits MySQL le permettent)
+
+---
+
+### Colonne `initial_balance` manquante
+
+**Symptôme :** `Unknown column 'initial_balance' in 'field list'`
+
+**Cause :** La base a été créée avec une ancienne version du script SQL.
+
+**Solution :** Exécutez cette requête sur votre base :
+```sql
+ALTER TABLE users ADD COLUMN initial_balance DECIMAL(15,2) DEFAULT 0.00;
+```
+Ou réimportez `database/smartbudget.sql` depuis zéro.
 
 ---
 
